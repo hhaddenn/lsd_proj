@@ -9,17 +9,28 @@ Port(
 prog : in std_logic_vector(1 downto 0);
 timereal: in std_logic_vector (3 downto 0);
 PON: in std_logic;
+
 progr: out std_logic_vector(6 downto 0);
 P : out std_logic_vector(6 downto 0);
-dec:out std_logic_vector (6 downto 0);
+dec: out std_logic_vector (6 downto 0));
 end b7dsc;
-
-
 architecture Behavioral of b7dsc is
+ begin 
+ 
+process (PON)
+	begin 
+	
+	if (PON = '1' ) then
+	progr <= "0011000";
+	else
+	progr<= "1111111";
+	end if;
+end process;
 
-  
- begin
-	case timereal  is
+process (timereal)
+
+begin
+case timereal is
 	when "0000" => 
 	dec <= "0000001"; 
 	when "0001" =>  
@@ -42,8 +53,12 @@ architecture Behavioral of b7dsc is
 	dec <= "0000100"; 
 	when others => 
 	dec <= "1111111";
-	end case;
-	
+end case;
+end process;
+
+process (timereal)
+begin
+
 	case prog is 
 	when "00" =>
 	p <="0000000";
@@ -55,11 +70,7 @@ architecture Behavioral of b7dsc is
 	p <= "0000110";
 	end case;
 	
-	if PON = "1";
-		progr<="0011000";
-	end if;
-	
-	count <= std_logic_vector(s_count);
+end process;
 	end Behavioral;	
 	
 	
